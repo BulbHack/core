@@ -31,7 +31,7 @@ const assets = {
 }
 
 const config = {
-  entry: './src/main.tsx',
+  entry: './src/main.ts',
   output: {
     path: path.resolve(__dirname, 'dist/'),
     filename: 'js/bundle.js',
