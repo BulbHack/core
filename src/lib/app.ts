@@ -26,7 +26,7 @@ export default async (firstEntity: IEntity, canvas: HTMLCanvasElement) => {
         messages = nextMessages;
         nextMessages = [];
         skippedFrames = await pause(startTime, 11);
-        if(skippedFrames>0){
+        if (skippedFrames > 0) {
             console.log("skipped");
         }
         frameNumber = frameNumber + 1 + skippedFrames;
@@ -42,8 +42,8 @@ export function buildEntity<T>(
     return {
         dead: false,
         state: initialState,
-        iterate: iterateFunction !== undefined ? iterateFunction : () => initialState,
-        render: renderFunction !== undefined ? renderFunction : () => { return; },
+        iterate: iterateFunction ?? ((state) => state),
+        render: renderFunction ?? (() => { return; }),
     };
 }
 
@@ -54,7 +54,6 @@ const pause = async (startTime: number, interval: number) => new Promise<number>
         wait += interval;
         skipped++;
     }
-    console.log(wait);
     setTimeout(() => res(skipped), wait);
 });
 

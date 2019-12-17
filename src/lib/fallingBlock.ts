@@ -1,5 +1,14 @@
 import { buildEntity } from "./app";
 
+interface IPhysics {
+    target: number;
+    action: string;
+}
+
+function isPhysics(message: any): message is IPhysics {
+    return message.type === "physics";
+}
+
 export default (color: string): IEntity => {
     return buildEntity({
         name: Math.floor(Math.random() * 1000),
@@ -22,12 +31,13 @@ export default (color: string): IEntity => {
         };
         messStore.sendMessage({ type: "block", name: state.name, x: state.x, y: state.y });
         messStore.getMessages()
-            .filter((mess) => { mess.type === "physics" && mess.target === state.name })
+            .filter(isPhysics)
+            .filter((mess) => mess.target === state.name)
             .forEach((mess) => {
                 if (mess.action === "bump" && mess.vely > 0) {
                     newForces = {
 
-                    }
+                    };
                 }
             });
         return {

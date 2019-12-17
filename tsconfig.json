@@ -3,6 +3,7 @@
     "./src/**/*"
   ],
   "compilerOptions": {
+    "lib": ["ESNext","DOM"],
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist/js",
