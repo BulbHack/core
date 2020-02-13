@@ -1,8 +1,8 @@
-# RENDERTEST
+# COREENGINE
 
 ## About
 
-Test Rendering on HTML5 Canvas with a fps control
+Simple game loop engine used as the core for other game engines.
 
 ## Author
 
