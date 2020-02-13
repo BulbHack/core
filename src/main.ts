@@ -1,5 +1,5 @@
 import app from "./lib/app";
-import buildBlockGenerator from "./lib/blockGenerator";
+import Block from "./block";
 
 const docstyle = document.body.style;
 docstyle.margin = "0";
@@ -30,4 +30,4 @@ window.onresize = () => {
 };
 
 document.body.appendChild(root);
-app(buildBlockGenerator(root), root);
+app(Block, [() => { return; }]);

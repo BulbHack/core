@@ -1,96 +1,61 @@
+export type IEntity<T> = [T, IterateFunction<T>];
 
-export default async (firstEntity: IEntity, canvas: HTMLCanvasElement) => {
-    const ctx = canvas.getContext("2d");
-    if (ctx === null) {
-        throw new Error("cannot get context");
-    }
-    let messages: any[] = [];
-    let nextMessages: any[] = [];
-    let entities: IEntity[] = [firstEntity];
-    const messageStore: IMessageStore = {
-        getMessages: () => {
-            return messages;
-        },
-        sendMessage: (mess) => {
-            nextMessages.push(mess);
-        },
-    };
-    let skippedFrames = 0;
-    let frameNumber = 0;
+export type IterateFunction<T> = (
+    state: T,
+    create: (newEntity: IEntity<any>) => void,
+    die: () => void,
+    messages: any[],
+    send: (message: any) => void,
+    frameNum: number,
+    framesSkipped: number,
+) => T;
 
-    while (entities.length > 0) {
-        const startTime = Date.now();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        entities = iterateEntities(entities, messageStore, frameNumber, skippedFrames);
-        renderEntities(entities, ctx, canvas.width, canvas.height);
-        messages = nextMessages;
-        nextMessages = [];
-        skippedFrames = await pause(startTime, 11);
-        if (skippedFrames > 0) {
-            console.log("skipped");
-        }
-        frameNumber = frameNumber + 1 + skippedFrames;
-    }
-
-};
-
-export function buildEntity<T>(
-    initialState: T,
-    iterateFunction?: IterateFunction<T>,
-    renderFunction?: RenderFunction<T>,
-): IEntity<T> {
-    return {
-        dead: false,
-        state: initialState,
-        iterate: iterateFunction ?? ((state) => state),
-        render: renderFunction ?? (() => { return; }),
-    };
+interface IContainer {
+    alive: boolean;
+    state: any;
+    iterate: IterateFunction<any>;
 }
 
-const pause = async (startTime: number, interval: number) => new Promise<number>((res) => {
-    let wait = interval - (Date.now() - startTime);
-    let skipped = 0;
-    while (wait < 1) {
-        wait += interval;
-        skipped++;
-    }
-    setTimeout(() => res(skipped), wait);
-});
+export const FPS60 = 16;
 
-const iterateEntities = (
-    currEntities: IEntity[],
-    messageStore: IMessageStore,
-    frameNumber: number,
-    skippedFrames: number,
-): IEntity[] => {
-    const newEntities: IEntity[] = [];
-    const createEntity = (newEntity: IEntity) => {
-        newEntities.push(newEntity);
+export default (
+    firstEntity: IEntity<any>,
+    renderers: Array<(state: any[]) => void>,
+    timePerFrame: number = FPS60,
+) => {
+    const [initialState, initialIterate] = firstEntity;
+    let containers: IContainer[] = [{ alive: true, state: initialState, iterate: initialIterate }];
+    let newContainers: IContainer[] = [];
+    let messages: any[] = [];
+    let newMessages: any[] = [];
+    const create = (newEntity: IEntity<any>) => {
+        const [newState, newIterate] = newEntity;
+        newContainers.push({ alive: true, state: newState, iterate: newIterate });
     };
-    const updatedEntites = currEntities
-        .map<IEntity>((entity) => {
-            let dead = false;
-            const die = () => { dead = true; };
-            const newState = entity.iterate(
-                entity.state,
-                messageStore,
-                createEntity,
-                die,
-                frameNumber,
-                skippedFrames);
-            return {
-                dead,
-                state: newState,
-                iterate: entity.iterate,
-                render: entity.render,
+    const send = (newMessage: any) => {
+        newMessages.push(newMessage);
+    };
+    const frame = (frameNum: number, framesSkipped: number) => {
+        const timeStart = new Date().getTime();
+        containers.forEach((container) => {
+            const die = () => {
+                container.alive = false;
             };
-        })
-        .filter((entity) => !entity.dead);
-    return [...updatedEntites, ...newEntities];
-};
-
-const renderEntities = (currEntities: IEntity[], ctx: CanvasRenderingContext2D, width: number, height: number) => {
-    currEntities.forEach((entity) => {
-        entity.render(ctx, entity.state, width, height);
-    });
+            container.state = container.iterate(
+                container.state, create, die, messages, send, frameNum, framesSkipped,
+            );
+        });
+        containers = [...containers.filter((i) => i.alive), ...newContainers];
+        newContainers = [];
+        messages = newMessages;
+        newMessages = [];
+        renderers.forEach((renderer) => renderer(containers.map((i) => i.state)));
+        const timeElapsed = new Date().getTime() - timeStart;
+        setTimeout(
+            frame,
+            Math.floor(timeElapsed % timePerFrame),
+            [frameNum + 1, Math.floor(timeElapsed / timePerFrame)],
+        );
+    };
+    frame(1, 0);
 };

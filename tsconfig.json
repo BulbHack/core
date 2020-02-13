@@ -3,7 +3,11 @@
     "./src/**/*"
   ],
   "compilerOptions": {
-    "lib": ["ESNext","DOM"],
+    "experimentalDecorators": true,
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist/js",
