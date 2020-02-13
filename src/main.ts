@@ -15,7 +15,7 @@ if (window.innerHeight > window.innerWidth) {
     root.width = window.innerHeight;
     root.height = window.innerHeight;
 }
-let timeHandle: NodeJS.Timeout;
+let timeHandle;
 window.onresize = () => {
     clearTimeout(timeHandle);
     timeHandle = setTimeout(() => {
@@ -28,6 +28,14 @@ window.onresize = () => {
         }
     }, 100);
 };
-
+const ctx = root.getContext("2d");
 document.body.appendChild(root);
-app(Block, [() => { return; }]);
+if (ctx) {
+
+    app(Block, [(states) => {
+        ctx.clearRect(0, 0, root.width, root.height);
+        states.forEach((state) => {
+            ctx.fillRect(state.x, state.y, 20, 20);
+        });
+    }]);
+}
