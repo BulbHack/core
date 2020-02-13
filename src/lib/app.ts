@@ -1,6 +1,6 @@
 export type IEntity<T> = [T, IterateFunction<T>];
 
-export type IterateFunction<T> = (
+export type IterateFunction<T> = (params: {
     state: T,
     create: (newEntity: IEntity<any>) => void,
     die: () => void,
@@ -8,7 +8,7 @@ export type IterateFunction<T> = (
     send: (message: any) => void,
     frameNum: number,
     framesSkipped: number,
-) => T;
+}) => T;
 
 interface IContainer {
     alive: boolean;
@@ -42,7 +42,7 @@ export default (
                 container.alive = false;
             };
             container.state = container.iterate(
-                container.state, create, die, messages, send, frameNum, framesSkipped,
+                { state: container.state, create, die, messages, send, frameNum, framesSkipped },
             );
         });
         containers = [...containers.filter((i) => i.alive), ...newContainers];
@@ -54,7 +54,8 @@ export default (
         setTimeout(
             frame,
             Math.floor(timeElapsed % timePerFrame),
-            [frameNum + 1, Math.floor(timeElapsed / timePerFrame)],
+            frameNum + 1,
+            Math.floor(timeElapsed / timePerFrame),
         );
     };
     frame(1, 0);

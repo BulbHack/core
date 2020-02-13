@@ -1,12 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
-const css = {
-  test: /\.css$/,
-  use: ['style-loader', 'css-loader'],
-};
-
 const ts = {
   test: /\.ts(x)?$/,
   use: [
@@ -16,28 +10,14 @@ const ts = {
   ],
 };
 
-const assets = {
-  test: /\.(png|jpe?g|gif|ico)$/,
-  use: [
-    {
-      loader: 'file-loader',
-      options: {
-        outputPath: 'images',
-        publicPath: 'images',
-        name: '[name].[ext]',
-      },
-    },
-  ],
-}
-
 const config = {
-  entry: './src/main.ts',
+  entry: './test/testRun/main.ts',
   output: {
-    path: path.resolve(__dirname, 'dist/'),
+    path: path.resolve(__dirname, 'testDist/'),
     filename: 'js/bundle.js',
   },
   module: {
-    rules: [css, ts, assets],
+    rules: [ts],
   },
   plugins: [
     new HtmlWebpackPlugin({

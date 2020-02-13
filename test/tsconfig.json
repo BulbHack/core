@@ -1,6 +1,6 @@
 {
   "include": [
-    "./src/**/*"
+    "./*"
   ],
   "compilerOptions": {
     "lib": [
@@ -9,7 +9,6 @@
     ],
     "target": "es5",
     "module": "commonjs",
-    "outDir": "./dist",
     "rootDir": "./src",
     "jsx": "react",
     "removeComments": true,

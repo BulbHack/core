@@ -1,5 +1,6 @@
-import app from "./lib/app";
-import Block from "./block";
+import app from "../../src/lib/app";
+import blockGenerator from "./entities/blockGenerator";
+import defaultRenderer from "./renderers/defaultRenderer";
 
 const docstyle = document.body.style;
 docstyle.margin = "0";
@@ -28,14 +29,6 @@ window.onresize = () => {
         }
     }, 100);
 };
-const ctx = root.getContext("2d");
-document.body.appendChild(root);
-if (ctx) {
 
-    app(Block, [(states) => {
-        ctx.clearRect(0, 0, root.width, root.height);
-        states.forEach((state) => {
-            ctx.fillRect(state.x, state.y, 20, 20);
-        });
-    }]);
-}
+document.body.appendChild(root);
+app(blockGenerator, [defaultRenderer(root)]);
