@@ -62,10 +62,10 @@ export const startLoop = (
     if (newMessages[channel] === undefined) {
       newMessages[channel] = [];
     }
-    newMessages[channel].push(newMessage);
+    newMessages[channel]?.push(newMessage);
   };
   const receive = (channel: string): unknown[] => {
-    return messages[channel];
+    return messages[channel] ?? [];
   };
   const step = (frameNum: number, framesSkipped: number) => {
     const timeStart = new Date().getTime();

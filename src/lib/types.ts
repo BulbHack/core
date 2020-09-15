@@ -23,7 +23,7 @@ export interface ChildEntity<T> {
   getState: () => Readonly<T>;
 }
 export interface Messages {
-  [channel: string]: unknown[];
+  [channel: string]: unknown[] | undefined;
 }
 export interface Container {
   alive: boolean;
