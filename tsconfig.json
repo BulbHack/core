@@ -1,21 +1,16 @@
 {
-  "include": [
-    "./src/**/*"
-  ],
+  "include": ["./src/**/*"],
   "compilerOptions": {
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "declaration": true,
     "target": "es5",
     "module": "commonjs",
-    "outDir": "./dist",
+    "outDir": "./dst",
     "rootDir": "./src",
     "jsx": "react",
     "removeComments": true,
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
@@ -26,6 +21,11 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": true,
+    "resolveJsonModule": true,
+    "allowUnreachableCode": true,
+    "sourceMap": true
   }
 }

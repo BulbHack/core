@@ -1,32 +1,37 @@
 {
-    "version": "1.0.3",
-    "author": "hattmo",
-    "license": "GPL-3.0-or-later",
-    "name": "@hattmo/coreengine",
-    "description": "Core Game Engine",
-    "scripts": {
-        "test": "mocha -r ts-node/register --bail ./test/**/*Test.ts",
-        "build": "tsc --project .",
-        "prepare": "npm run build",
-        "start": "webpack-dev-server --content-base=dist --inline --watch --hot"
-    },
-    "files": [
-        "/dist/"
-    ],
-    "main": "dist/lib/app.js",
-    "devDependencies": {
-        "@types/chai": "^4.2.7",
-        "@types/mocha": "^5.2.7",
-        "@types/node": "^12.12.18",
-        "chai": "^4.2.0",
-        "html-webpack-plugin": "^3.2.0",
-        "mocha": "^6.2.2",
-        "ts-loader": "^6.2.1",
-        "ts-node": "^8.5.4",
-        "tslint": "^5.20.1",
-        "typescript": "^3.7.3",
-        "webpack": "^4.41.3",
-        "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.9.0"
-    }
+  "version": "1.0.3",
+  "author": "hattmo",
+  "license": "GPL-3.0-or-later",
+  "name": "@hattmo/coreengine",
+  "description": "Core Game Engine",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc --project .",
+    "prepare": "npm run build",
+    "start": "webpack-dev-server --content-base=dst --inline --watch --hot"
+  },
+  "files": [
+    "/dst/"
+  ],
+  "main": "dst/lib/app.js",
+  "devDependencies": {
+    "@types/node": "^14.10.1",
+    "html-webpack-plugin": "^4.4.1",
+    "ts-loader": "^8.0.3",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "@types/jest": "^26.0.13",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "eslint": "^7.8.1",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-react": "^7.20.6",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.2",
+    "ts-node": "^9.0.0"
+  }
 }

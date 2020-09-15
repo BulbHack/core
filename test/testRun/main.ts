@@ -1,4 +1,4 @@
-import app from "../../src/lib/app";
+import { startLoop, } from "../../src/lib/app";
 import blockGenerator from "./entities/blockGenerator";
 import defaultRenderer from "./renderers/defaultRenderer";
 
@@ -10,25 +10,25 @@ docstyle.placeContent = "center";
 docstyle.height = "100vh";
 const root = document.createElement("canvas");
 if (window.innerHeight > window.innerWidth) {
-    root.width = window.innerWidth;
-    root.height = window.innerWidth;
+  root.width = window.innerWidth;
+  root.height = window.innerWidth;
 } else {
-    root.width = window.innerHeight;
-    root.height = window.innerHeight;
+  root.width = window.innerHeight;
+  root.height = window.innerHeight;
 }
-let timeHandle;
+let timeHandle = 0;
 window.onresize = () => {
-    clearTimeout(timeHandle);
-    timeHandle = setTimeout(() => {
-        if (window.innerHeight > window.innerWidth) {
-            root.width = window.innerWidth;
-            root.height = window.innerWidth;
-        } else {
-            root.width = window.innerHeight;
-            root.height = window.innerHeight;
-        }
-    }, 100);
+  window.clearTimeout(timeHandle);
+  timeHandle = window.setTimeout(() => {
+    if (window.innerHeight > window.innerWidth) {
+      root.width = window.innerWidth;
+      root.height = window.innerWidth;
+    } else {
+      root.width = window.innerHeight;
+      root.height = window.innerHeight;
+    }
+  }, 100);
 };
 
 document.body.appendChild(root);
-app(blockGenerator, [defaultRenderer(root)]);
+startLoop(blockGenerator, [defaultRenderer(root)]);

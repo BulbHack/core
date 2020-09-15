@@ -1,22 +1,26 @@
-import { IEntity, IterateFunction } from "../../../src/lib/app";
+import { createMod, Entity } from "../../../src/lib/app";
 import { IPositionState } from "../states/states";
 
-const falls = <T>(target: IEntity<IPositionState & T>): IEntity<IPositionState & T> => {
-    const [targetInitialState, iterate] = target;
-    const fallSpeed = Math.random() * 2 + 2;
-    const newIterate: IterateFunction<IPositionState & T> = (args) => {
-        const { die, state } = args;
-        if (state.y > 1000) {
-            die();
-        }
-        const targetState = iterate(args);
-        return {
-            ...targetState,
-            x: targetState.x,
-            y: targetState.y + fallSpeed,
-        };
-    };
-    return [targetInitialState, newIterate];
+const falls = <T>(target: Entity<IPositionState & T>) => {
+  const fallSpeed = Math.floor(Math.random() * 2 + 8);
+  const mod = createMod<IPositionState, { isFalling: boolean }>(
+    { isFalling: true },
+    (param) => {
+      let falling = true;
+      if (param.state.y > 2000) {
+        param.die();
+        falling = false;
+      }
+      return {
+        ...param.state,
+        y: param.state.y + fallSpeed,
+        isFalling: falling,
+      };
+    },
+    (param) => param.state
+  );
+  return mod(target);
 };
+
 
 export default falls;
