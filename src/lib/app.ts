@@ -15,7 +15,7 @@ export {
   IterateFunction,
 } from "./types";
 
-export { createMod } from "./modifier";
+export { createMod, createEntity } from "./factories";
 
 export const startLoop = (
   firstEntity: Entity<any>,

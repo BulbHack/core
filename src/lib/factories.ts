@@ -1,6 +1,6 @@
 import { Entity, IterateFunction } from "./app";
 
-export const createMod = <R, A>({
+export const createMod = <R, A = {}>({
   initialState,
   beforeIter,
   afterIter,
@@ -23,4 +23,12 @@ export const createMod = <R, A>({
     };
     return [{ ...targetInitialState, ...initialState }, comboIterator];
   };
+};
+
+export const createEntity = <R>(
+  initialState: R,
+  iter?: IterateFunction<R>
+): Entity<R> => {
+  const outIter: IterateFunction<R> = iter ?? (({ state }) => state);
+  return [initialState, outIter];
 };
