@@ -1,13 +1,13 @@
-import { startLoop, } from "../../src/lib/app";
+import { getDebugHook, startLoop } from "../../src/lib/app";
 import blockGenerator from "./entities/blockGenerator";
 import defaultRenderer from "./renderers/defaultRenderer";
 
-const docstyle = document.body.style;
-docstyle.margin = "0";
-docstyle.overflow = "hidden";
-docstyle.display = "grid";
-docstyle.placeContent = "center";
-docstyle.height = "100vh";
+const docStyle = document.body.style;
+docStyle.margin = "0";
+docStyle.overflow = "hidden";
+docStyle.display = "grid";
+docStyle.placeContent = "center";
+docStyle.height = "100vh";
 const root = document.createElement("canvas");
 if (window.innerHeight > window.innerWidth) {
   root.width = window.innerWidth;
@@ -31,4 +31,11 @@ window.onresize = () => {
 };
 
 document.body.appendChild(root);
-startLoop(blockGenerator, [defaultRenderer(root)]);
+
+const [controller, debugHook] = getDebugHook();
+startLoop(blockGenerator, [defaultRenderer(root)], { debugHook });
+
+window.onclick = ()=>{
+  controller.next();
+}
+

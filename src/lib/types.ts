@@ -11,12 +11,13 @@ export type IterateFunction<T> = (params: {
 }) => T;
 
 export type DebugHook = (
-  step: (frameNum: number, framesSkipped: number) => void,
+  step: (delay: number, frameNum: number, framesSkipped: number) => void,
   frameNum: number,
   timeStart: number,
+  timePerFrame: number,
   containers: Container[],
   messages: Messages
-) => void;
+) => [Container[], Messages];
 export interface ChildEntity<T> {
   isAlive: () => boolean;
   kill: () => void;
@@ -32,3 +33,13 @@ export interface Container {
 }
 
 export const FPS60 = 16;
+
+export type StepFunction = (
+  delay: number,
+  frameNum: number,
+  framesSkipped: number
+) => void;
+
+export interface DebugController {
+  next: (waitTime?: number) => Promise<void>;
+}
