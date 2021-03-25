@@ -8,6 +8,15 @@ const entity: Entity<{}> = [
       create(block(Math.floor(Math.random() * 1000), 0, "green"));
       create(block(Math.floor(Math.random() * 1000), 0, "blue"));
       create(block(Math.floor(Math.random() * 1000), 0, "red"));
+      create(block(Math.floor(Math.random() * 1000), 0, "green"));
+      create(block(Math.floor(Math.random() * 1000), 0, "blue"));
+      create(block(Math.floor(Math.random() * 1000), 0, "red"));
+      create(block(Math.floor(Math.random() * 1000), 0, "green"));
+      create(block(Math.floor(Math.random() * 1000), 0, "blue"));
+      create(block(Math.floor(Math.random() * 1000), 0, "red"));
+      create(block(Math.floor(Math.random() * 1000), 0, "green"));
+      create(block(Math.floor(Math.random() * 1000), 0, "blue"));
+      create(block(Math.floor(Math.random() * 1000), 0, "red"));
     }
     return {};
   },

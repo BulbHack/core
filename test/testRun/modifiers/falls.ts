@@ -8,7 +8,6 @@ const falls = <T>(target: Entity<IPositionState & T>) => {
     beforeIter: (param) => {
       let falling = true;
       if (param.state.y > 2000) {
-        console.log("died");
         param.die();
         falling = false;
       }

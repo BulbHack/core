@@ -8,7 +8,7 @@ export default (root: HTMLCanvasElement) => {
             states.forEach((state) => {
                 if (isBlockState(state)) {
                     ctx.fillStyle = state.colorName;
-                    ctx.fillRect(state.x, state.y, 20, 20);
+                    ctx.fillRect(state.x, state.y, 10, 10);
                 }
             });
         };
